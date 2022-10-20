@@ -7,11 +7,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    fetchMovies();
-  }, []);
-
-  async function fetchMovies() {
+  const fetchMovies = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -38,7 +34,12 @@ function App() {
       console.log(error);
     }
     setIsLoading(false);
-  }
+  }, []);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
+
   let content = <p>Found no movies</p>;
 
   if (movies.length > 0) {
