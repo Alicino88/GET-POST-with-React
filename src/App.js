@@ -13,6 +13,10 @@ function App() {
 
     try {
       const response = await fetch("https://swapi.dev/api/films");
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Something went wrong");
+      }
       const data = await response.json();
 
       const transformedMovies = data.results.map((movieData) => {
@@ -25,7 +29,11 @@ function App() {
       });
       setMovies(transformedMovies);
       setIsLoading(false);
-    } catch (error) {}
+    } catch (error) {
+      setError(error.message);
+      console.log(error);
+    }
+    setIsLoading(false);
   }
 
   return (
@@ -35,8 +43,11 @@ function App() {
       </section>
       <section>
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
-        {!isLoading && movies.length === 0 && <p>There are no movies</p>}
+        {!isLoading && movies.length === 0 && !error && (
+          <p>There are no movies</p>
+        )}
         {isLoading && <p>Loading movies...</p>}
+        {!isLoading && error && <p>{error}</p>}
       </section>
     </>
   );
