@@ -1,3 +1,4 @@
+import MoviesList from "./Components/MovieList";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
     <>
       <section>
         <button>Fetch Movies</button>
+      </section>
+      <section>
+        <MoviesList movies={dummyMovies} />
       </section>
     </>
   );
